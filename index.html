@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESRD Giveaway</title>
+    <meta name="theme-color" content="#006fff">
+    <link rel="icon" href="webh.jpg" type="image/png">
+    <header>
+    <img src="logo.png" alt="Website Logo" class="logo1">
+    </header>
+
+
+    <style>
+        @font-face {
+  font-family: 'gff';
+  src: url('font.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'gff', sans-serif;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: white;
+        }
+        
+        .container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+            overflow: hidden;
+        }
+        
+        .background-stripes {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+        
+        .stripe-top-left {
+            position: absolute;
+            top: 0;
+            left: -4rem;
+            width: 8rem;
+            height: 8rem;
+            background-color: #f3f3f3;
+            transform: rotate(-45deg);
+            transform-origin: top right;
+        }
+        
+        .stripe-bottom-right {
+            position: absolute;
+            bottom: 0;
+            right: -4rem;
+            width: 8rem;
+            height: 8rem;
+            background-color: #f3f3f3;
+            transform: rotate(-45deg);
+            transform-origin: bottom left;
+        }
+        
+        .content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .logo {
+            width: 250px;
+            height: 250px;
+            object-fit: contain;
+            margin-bottom: 1rem;
+            align-self: center;
+            border-radius: 10px;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: black;
+        }
+        
+        h2 {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #0d6efd;
+            margin-bottom: 1.5rem;
+        }
+        
+        p {
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.5;
+            font-size: 0.8rem;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background-color: #0d6efd;
+            color: white;
+            font-size: 1.125rem;
+            font-weight: 500;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #0b5ed7;
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        /* Success animation */
+        .success-animation {
+            display: none;
+            margin: 1rem auto;
+        }
+        
+        .checkmark {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: block;
+            stroke-width: 2;
+            stroke: #000000;
+            stroke-miterlimit: 10;
+            box-shadow: inset 0px 0px 0px #006fff;
+            animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+            margin: 0 auto;
+        }
+        
+        .checkmark__circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 2;
+            stroke-miterlimit: 10;
+            stroke: #fff;
+            fill: none;
+            animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+        
+        .checkmark__check {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+        }
+        
+        @keyframes stroke {
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+        
+        @keyframes scale {
+            0%, 100% {
+                transform: none;
+            }
+            50% {
+                transform: scale3d(1.1, 1.1, 1);
+            }
+        }
+        
+        @keyframes fill {
+            100% {
+                box-shadow: inset 0px 0px 0px 30px #006fff;
+            }
+        }
+        
+        .logo1 {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 50px; /* Adjust size */
+    height: auto;
+    margin-bottom: 20px;
+}
+
+ /* Music player styles */
+        #music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ffffff;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            z-index: 1000;
+        }
+
+        .control-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background-color: #006fff;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .control-button:hover {
+            background-color: #006fff;
+            transform: scale(1.05);
+        }
+
+        .control-button svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        .mute-button {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            background-color: transparent;
+            color: #4b5563;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .mute-button:hover {
+            background-color: #f3f4f6;
+            transform: scale(1.05);
+        }
+
+        .mute-button svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        .muted {
+            color: #9ca3af;
+        }
+
+        /* Add a subtle pulse animation for the playing state */
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(79, 70, 229, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
+        }
+
+        .playing {
+            animation: pulse 2s infinite;
+        }
+                .xx {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'gff', sans-serif;
+        }
+        
+              .container1 {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .main-title {
+            font-size: 1.875rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #333;
+        }
+
+        .reviews-container {
+            width: 100%;
+        }
+
+        .reviews-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .reviews-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .control-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .control-select {
+            border: 1px solid #d1d5db;
+            border-radius: 0.25rem;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 1rem;
+        }
+
+        /* Review card styles */
+        .review-card {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .review-card:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .review-content {
+            padding: 1.25rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .review-avatar {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .avatar-text {
+            color: white;
+            font-weight: 600;
+        }
+
+        .review-details {
+            flex: 1;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .review-name {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .review-date {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+
+        .review-rating {
+            display: flex;
+            margin: 0.25rem 0 0.5rem 0;
+        }
+
+        .star {
+            width: 1rem;
+            height: 1rem;
+            margin-right: 0.125rem;
+        }
+
+        .star-filled {
+            color: #fbbf24;
+            fill: #fbbf24;
+        }
+
+        .star-empty {
+            color: #d1d5db;
+        }
+
+        .review-comment {
+            font-size: 0.875rem;
+            color: #4b5563;
+        }
+
+        /* Responsive grid */
+        @media (min-width: 640px) {
+            .reviews-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .reviews-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (min-width: 1280px) {
+            .reviews-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="background-stripes">
+            <div class="stripe-top-left"></div>
+            <div class="stripe-bottom-right"></div>
+        </div>
+        
+        <div class="content">
+            <!-- Logo/Image added here -->
+            <img src="giveaway.gif" alt="ESRD Game Logo" class="logo">
+            
+            <h1>ESRD Game Division</h1>
+            <h2>Giveaway Redemption Site</h2>
+            
+            <p>
+                This Page has been Developed for Free Fire Giveaway Where you Can Watch Live 
+                Stream and win tons of reward in game and physically.
+            </p>
+            
+            <button class="btn" id="enterCodeBtn">Enter Code</button>
+        </div>
+    </div>
+    
+    <!-- Code Entry Modal -->
+    <div class="modal" id="codeModal">
+        <div class="modal-content">
+            <h3 class="modal-title">Enter Giveaway Code</h3>
+            <input type="text" class="input-field" id="codeInput" placeholder="Enter your code">
+            <button class="btn" id="submitCodeBtn">Submit</button>
+        </div>
+    </div>
+    
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <h3 class="modal-title">Congratulations!</h3>
+            <p>You won from the giveaway! Collect your reward.</p>
+            
+            <div class="success-animation" id="successAnimation">
+                <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                    <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                    <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                </svg>
+            </div>
+            
+            <div id="uidInputSection">
+                <h4 style="margin: 1rem 0;">Enter your FreeFire UID</h4>
+                <input type="text" class="input-field" id="uidInput" placeholder="Enter your FreeFire UID">
+                <button class="btn" id="submitUidBtn">Submit</button>
+            </div>
+            
+            <div id="finalSuccessSection" style="display: none;">
+                <h4 style="margin: 1rem 0; color: #006fff;">Successful!</h4>
+                <p>Your reward will be sent to your game account soon.</p>
+            </div>
+        </div>
+    </div>
+    
+        <div id="music-player">
+        <button id="play-pause-button" class="control-button playing" aria-label="Play or pause music">
+            <!-- Play Icon SVG -->
+            <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="display: none;">
+                <path d="M8 5v14l11-7z"/>
+            </svg>
+            <!-- Pause Icon SVG -->
+            <svg id="pause-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+            </svg>
+        </button>
+        <button id="mute-button" class="mute-button" aria-label="Mute or unmute music">
+            <!-- Volume Icon SVG -->
+            <svg id="volume-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+            </svg>
+            <!-- Mute Icon SVG -->
+            <svg id="mute-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="display: none;">
+                <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+            </svg>
+        </button>
+        <audio id="audio-player" src="bg.mp3"></audio>
+    </div>
+    <div class="xx">
+        <div class="container1">
+       <!-- <h1 class="main-title">Free Fire Giveaway Reviews</h1>-->
+        
+        <div class="reviews-container">
+            <div class="reviews-header">
+                <h2 class="section-title">What Players Are Saying</h2>
+                <div class="reviews-control">
+                    <label for="reviewCount" class="control-label">Show:</label>
+                    <select id="reviewCount" class="control-select">
+                        <option value="3">3 Reviews</option>
+                        <option value="4">4 Reviews</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div id="reviewsGrid" class="reviews-grid">
+                <!-- Reviews will be inserted here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Review card template -->
+    <template id="reviewTemplate">
+        <div class="review-card">
+            <div class="review-content">
+                <div class="review-avatar">
+                    <span class="avatar-text"></span>
+                </div>
+                <div class="review-details">
+                    <div class="review-header">
+                        <h3 class="review-name"></h3>
+                        <span class="review-date"></span>
+                    </div>
+                    <div class="review-rating">
+                        <!-- Stars will be inserted here by JavaScript -->
+                    </div>
+                    <p class="review-comment"></p>
+                </div>
+            </div>
+        </div>
+    </template>
+    </div>
+    
+    <script>
+        // Get DOM elements
+        const enterCodeBtn = document.getElementById('enterCodeBtn');
+        const codeModal = document.getElementById('codeModal');
+        const successModal = document.getElementById('successModal');
+        const codeInput = document.getElementById('codeInput');
+        const submitCodeBtn = document.getElementById('submitCodeBtn');
+        const uidInput = document.getElementById('uidInput');
+        const submitUidBtn = document.getElementById('submitUidBtn');
+        const uidInputSection = document.getElementById('uidInputSection');
+        const finalSuccessSection = document.getElementById('finalSuccessSection');
+        const successAnimation = document.getElementById('successAnimation');
+        
+        // Show code modal when Enter Code button is clicked
+        enterCodeBtn.addEventListener('click', () => {
+            codeModal.style.display = 'flex';
+        });
+        
+        // Close modals when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === codeModal) {
+                codeModal.style.display = 'none';
+            }
+            if (e.target === successModal) {
+                successModal.style.display = 'none';
+            }
+        });
+        
+        // Submit code
+        submitCodeBtn.addEventListener('click', () => {
+            const code = codeInput.value.trim();
+            
+            if (code === 'FFESRDFIRSTE') {
+                // Correct code
+                codeModal.style.display = 'none';
+                successModal.style.display = 'flex';
+            } else {
+                // Incorrect code
+                alert('Invalid code. Please try again.');
+            }
+        });
+        
+        // Submit UID
+        submitUidBtn.addEventListener('click', () => {
+            const uid = uidInput.value.trim();
+            
+            if (uid) {
+                // Hide UID input section
+                uidInputSection.style.display = 'none';
+                
+                // Show success animation
+                successAnimation.style.display = 'block';
+                
+                // Show final success message after animation
+                setTimeout(() => {
+                    finalSuccessSection.style.display = 'block';
+                }, 1500);
+            } else {
+                alert('Please enter your FreeFire UID.');
+            }
+        });
+    </script>
+    
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const audioPlayer = document.getElementById('audio-player');
+            const playPauseButton = document.getElementById('play-pause-button');
+            const muteButton = document.getElementById('mute-button');
+            const playIcon = document.getElementById('play-icon');
+            const pauseIcon = document.getElementById('pause-icon');
+            const volumeIcon = document.getElementById('volume-icon');
+            const muteIcon = document.getElementById('mute-icon');
+            
+            // Try to autoplay when page loads
+            audioPlayer.play().then(() => {
+                // Autoplay successful
+                pauseIcon.style.display = 'block';
+                playIcon.style.display = 'none';
+                playPauseButton.classList.add('playing');
+            }).catch(error => {
+                // Autoplay prevented by browser
+                console.log("Autoplay was prevented:", error);
+                pauseIcon.style.display = 'none';
+                playIcon.style.display = 'block';
+                playPauseButton.classList.remove('playing');
+            });
+            
+            // Play/Pause functionality
+            playPauseButton.addEventListener('click', function() {
+                if (audioPlayer.paused) {
+                    audioPlayer.play();
+                    pauseIcon.style.display = 'block';
+                    playIcon.style.display = 'none';
+                    playPauseButton.classList.add('playing');
+                } else {
+                    audioPlayer.pause();
+                    pauseIcon.style.display = 'none';
+                    playIcon.style.display = 'block';
+                    playPauseButton.classList.remove('playing');
+                }
+            });
+            
+            // Mute/Unmute functionality
+            muteButton.addEventListener('click', function() {
+                audioPlayer.muted = !audioPlayer.muted;
+                if (audioPlayer.muted) {
+                    volumeIcon.style.display = 'none';
+                    muteIcon.style.display = 'block';
+                    muteButton.classList.add('muted');
+                } else {
+                    volumeIcon.style.display = 'block';
+                    muteIcon.style.display = 'none';
+                    muteButton.classList.remove('muted');
+                }
+            });
+        });
+    </script>
+        <script>
+        // Sample review data with Free Fire giveaway reviews
+        const allReviews = [
+            {
+                id: 1,
+                name: "Antor",
+                rating: 5,
+                comment: "আমি অপেক্ষায় ছিলাম মনে করছিলাম পেয়ে যাব অবশেষে পেয়েও গেলাম ধন্যবাদ ESRD",
+                date: "2 days ago"
+            },
+            {
+                id: 2,
+                name: "Junayed",
+                rating: 4,
+                comment: "Ami Aktaa Weekly Paisi 😀",
+                date: "1 week ago"
+            },
+            {
+                id: 3,
+                name: "H4X ESP",
+                rating: 5,
+                comment: "Finally got the Alok character from the special character giveaway! Been trying for months. This site is the real deal!",
+                date: "3 days ago"
+            },
+            {
+                id: 4,
+                name: "Tanvir Ahmed",
+                rating: 4,
+                comment: "The weekly emote giveaway is awesome. Got the 'Death Glare' emote last week. Could use more gun skin giveaways though.",
+                date: "5 days ago"
+            },
+            {
+                id: 5,
+                name: "Rahat",
+                rating: 5,
+                comment: "The Elite Pass giveaway saved me so much money! The verification process is simple and rewards are delivered within 24 hours.",
+                date: "1 day ago"
+            },
+            {
+                id: 6,
+                name: "Sakib",
+                rating: 3,
+                comment: "Got some good items from the monthly bundle giveaway, but sometimes the server is slow during peak hours. Still worth it!",
+                date: "2 weeks ago"
+            },
+            {
+                id: 7,
+                name: "Mehedi",
+                rating: 5,
+                comment: "The DJ Alok and Chrono character giveaway is phenomenal! Also won the Draco AK skin last month. 100% recommended!",
+                date: "4 days ago"
+            },
+            {
+                id: 8,
+                name: "Fahim",
+                rating: 4,
+                comment: "Weekly pet skin giveaways are my favorite. Just got the Robo pet with the mechanical skin. Keep up the good work!",
+                date: "1 week ago"
+            },
+            {
+                id: 9,
+                name: "Riyad",
+                rating: 5,
+                comment: "The limited edition Cobra bundle from the monthly giveaway is fire! The animation effects are insane in-game.",
+                date: "3 days ago"
+            },
+            {
+                id: 10,
+                name: "Karim",
+                rating: 4,
+                comment: "Won the legendary Dragon AK and M1014 Green Flame in the weapon giveaway. The daily spin rewards are generous too!",
+                date: "6 days ago"
+            },
+            {
+                id: 11,
+                name: "Siam",
+                rating: 5,
+                comment: "The exclusive emote giveaway is lit! Got the 'Top DJ' and 'Death Stare' emotes. My squad is jealous now!",
+                date: "2 days ago"
+            },
+            {
+                id: 12,
+                name: "Naim",
+                rating: 4,
+                comment: "Monthly diamond giveaway helped me get the new season Elite Pass. The verification is quick and diamonds arrived instantly.",
+                date: "1 week ago"
+            },
+            {
+                id: 13,
+                name: "Jony",
+                rating: 5,
+                comment: "The weekly custom room card giveaway helps me host tournaments for my guild. Also won the Winterlands bundle last month!",
+                date: "4 days ago"
+            },
+            {
+                id: 14,
+                name: "Miraz",
+                rating: 4,
+                comment: "Got the rare Phantom Assassin bundle from the special event giveaway. The site delivers exactly what it promises!",
+                date: "3 days ago"
+            }
+        ];
+
+        // DOM elements
+        const reviewsGrid = document.getElementById('reviewsGrid');
+        const reviewCountSelect = document.getElementById('reviewCount');
+        const reviewTemplate = document.getElementById('reviewTemplate');
+
+        // Current state
+        let displayCount = 3;
+        let updateInterval;
+
+        // Function to get random reviews
+        function getRandomReviews(count) {
+            const shuffled = [...allReviews].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, count);
+        }
+
+        // Function to create a star icon
+        function createStarIcon(filled) {
+            const star = document.createElement('span');
+            star.classList.add('star');
+            star.classList.add(filled ? 'star-filled' : 'star-empty');
+            
+            // SVG star icon
+            star.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+            `;
+            
+            return star;
+        }
+
+        // Function to get initials from name
+        function getInitials(name) {
+            return name
+                .split(' ')
+                .map(word => word[0])
+                .join('')
+                .toUpperCase();
+        }
+
+        // Function to generate a color based on name
+        function getColorFromName(name) {
+            const colors = [
+                '#ef4444', '#3b82f6', '#10b981', 
+                '#f59e0b', '#8b5cf6', '#ec4899',
+                '#6366f1', '#14b8a6'
+            ];
+            
+            let sum = 0;
+            for (let i = 0; i < name.length; i++) {
+                sum += name.charCodeAt(i);
+            }
+            
+            return colors[sum % colors.length];
+        }
+
+        // Function to render a review
+        function renderReview(review) {
+            const reviewCard = document.importNode(reviewTemplate.content, true).firstElementChild;
+            
+            // Set avatar
+            const avatar = reviewCard.querySelector('.review-avatar');
+            const avatarText = reviewCard.querySelector('.avatar-text');
+            avatar.style.backgroundColor = getColorFromName(review.name);
+            avatarText.textContent = getInitials(review.name);
+            
+            // Set name and date
+            reviewCard.querySelector('.review-name').textContent = review.name;
+            reviewCard.querySelector('.review-date').textContent = review.date;
+            
+            // Set rating stars
+            const ratingContainer = reviewCard.querySelector('.review-rating');
+            for (let i = 0; i < 5; i++) {
+                const star = createStarIcon(i < review.rating);
+                ratingContainer.appendChild(star);
+            }
+            
+            // Set comment
+            reviewCard.querySelector('.review-comment').textContent = review.comment;
+            
+            return reviewCard;
+        }
+
+        // Function to update displayed reviews
+        function updateReviews() {
+            // Clear current reviews
+            reviewsGrid.innerHTML = '';
+            
+            // Get random reviews
+            const reviews = getRandomReviews(displayCount);
+            
+            // Render each review
+            reviews.forEach(review => {
+                const reviewElement = renderReview(review);
+                reviewsGrid.appendChild(reviewElement);
+            });
+        }
+
+        // Initialize reviews
+        function initReviews() {
+            // Set initial display count
+            displayCount = parseInt(reviewCountSelect.value);
+            
+            // Update reviews initially
+            updateReviews();
+            
+            // Set up interval for automatic updates
+            if (updateInterval) {
+                clearInterval(updateInterval);
+            }
+            updateInterval = setInterval(updateReviews, 5000);
+        }
+
+        // Event listeners
+        reviewCountSelect.addEventListener('change', function() {
+            displayCount = parseInt(this.value);
+            updateReviews();
+        });
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', initReviews);
+    </script> 
+</body>
+</html>
